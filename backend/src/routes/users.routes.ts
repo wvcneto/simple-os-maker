@@ -1,25 +1,29 @@
 import { Router } from 'express';
 
-import User from '../models/User';
+import CreateUserService from '../services/CreateUserService';
 
 const usersRouter = Router();
 
-const users: User[] = [];
-
 // post
-usersRouter.post('/', (request, response) => {
+usersRouter.post('/', async (request, response) => {
   const { name, email, phone, document, type } = request.body;
 
-  const user = new User({ name, email, phone, document, type });
+  const createUser = new CreateUserService();
 
-  users.push(user);
+  const user = await createUser.execute({
+    name,
+    email,
+    phone,
+    document,
+    type,
+  });
 
   return response.json(user);
 });
 
 // getOne
 usersRouter.get('/', (request, response) => {
-  return response.json(users);
+  return response.json({ ok: true });
 });
 
 // getAll

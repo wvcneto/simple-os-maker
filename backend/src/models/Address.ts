@@ -1,40 +1,42 @@
-import { uuid } from 'uuidv4';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
+@Entity('address')
 class Address {
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column()
   state: string;
 
+  @Column()
   city: string;
 
+  @Column()
   neighborhood: string;
 
+  @Column()
   street: string;
 
+  @Column()
   number: string;
 
+  @Column()
   complement: string;
 
+  @Column()
   zip: string;
 
-  constructor({
-    state,
-    city,
-    neighborhood,
-    street,
-    number,
-    complement,
-    zip,
-  }: Omit<Address, 'id'>) {
-    this.id = uuid();
-    this.state = state;
-    this.city = city;
-    this.neighborhood = neighborhood;
-    this.street = street;
-    this.number = number;
-    this.complement = complement;
-    this.zip = zip;
-  }
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }
 
 export default Address;

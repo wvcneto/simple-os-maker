@@ -1,31 +1,47 @@
-import { uuid } from 'uuidv4';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 
 import Address from './Address';
 
+@Entity('users')
 class User {
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column()
   name: string;
 
+  @Column()
   email: string;
 
+  @Column()
   phone: string;
 
+  @Column()
   document: string;
 
+  @Column()
   type: string;
 
-  // address: Address;
+  @Column()
+  address_id: Address;
 
-  constructor({ name, email, phone, document, type }: Omit<User, 'id'>) {
-    this.id = uuid();
-    this.name = name;
-    this.email = email;
-    this.phone = phone;
-    this.document = document;
-    this.type = type;
-    // this.address = address;
-  }
+  @OneToOne(() => Address)
+  @JoinColumn({ name: 'address_id' })
+  address: Address;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }
 
 export default User;
