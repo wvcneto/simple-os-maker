@@ -4,14 +4,10 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToOne,
-  JoinColumn,
 } from 'typeorm';
 
-import Address from './Address';
-
-@Entity('users')
-class User {
+@Entity('services')
+class Service {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -19,23 +15,13 @@ class User {
   name: string;
 
   @Column()
-  email: string;
-
-  @Column()
-  phone: string;
-
-  @Column()
-  document: string;
-
-  @Column()
   type: string;
 
   @Column()
-  address_id: string;
+  description: string;
 
-  @OneToOne(() => Address)
-  @JoinColumn({ name: 'address_id' })
-  address: Address;
+  @Column()
+  code: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -44,4 +30,4 @@ class User {
   updated_at: Date;
 }
 
-export default User;
+export default Service;

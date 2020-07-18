@@ -1,14 +1,23 @@
 import { Router } from 'express';
 
-import CreateUserService from '../services/CreateUserService';
+import { getRepository } from 'typeorm';
+import CreateUser from '../services/CreateUser';
+import User from '../models/User';
 
 const usersRouter = Router();
 
 // post
 usersRouter.post('/', async (request, response) => {
-  const { name, email, phone, document, type } = request.body;
+  const {
+    name,
+    email,
+    phone,
+    document,
+    type,
+    address: { state, city, neighborhood, street, number, complement, zip },
+  } = request.body;
 
-  const createUser = new CreateUserService();
+  const createUser = new CreateUser();
 
   const user = await createUser.execute({
     name,
@@ -16,29 +25,19 @@ usersRouter.post('/', async (request, response) => {
     phone,
     document,
     type,
+    address: { state, city, neighborhood, street, number, complement, zip },
   });
 
-  return response.json(user);
+  return response.status(201).json(user);
 });
 
-// getOne
-usersRouter.get('/', (request, response) => {
-  return response.json({ ok: true });
-});
+// list
+usersRouter.get('/', async (request, response) => {
+  const usersRepository = getRepository(User);
 
-// getAll
-usersRouter.get('/', (request, response) => {
-  return response.json({ ok: true });
-});
+  const users = await usersRepository.find();
 
-// delete
-usersRouter.delete('/', (request, response) => {
-  return response.json({ ok: true });
-});
-
-// put
-usersRouter.put('/', (request, response) => {
-  return response.json({ ok: true });
+  return response.status(200).json(users);
 });
 
 export default usersRouter;
