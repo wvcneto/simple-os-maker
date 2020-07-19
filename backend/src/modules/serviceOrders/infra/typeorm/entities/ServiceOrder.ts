@@ -8,8 +8,8 @@ import {
   JoinColumn,
 } from 'typeorm';
 
-import Service from './Service';
-import User from './User';
+import Service from '@modules/_services/infra/typeorm/entities/Service';
+import User from '@modules/users/infra/typeorm/entities/User';
 
 @Entity('service_orders')
 class ServiceOrder {

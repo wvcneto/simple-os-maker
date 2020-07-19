@@ -8,7 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 
-import Address from './Address';
+import Address from '@modules/users/infra/typeorm/entities/Address';
 
 @Entity('users')
 class User {

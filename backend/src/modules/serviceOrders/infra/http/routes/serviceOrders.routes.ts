@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { getRepository } from 'typeorm';
-import CreateServiceOrder from '../services/CreateServiceOrder';
-import ServiceOrder from '../models/ServiceOrder';
+import CreateServiceOrder from '@modules/serviceOrders/services/CreateServiceOrder';
+import ServiceOrder from '@modules/serviceOrders/infra/typeorm/entities/ServiceOrder';
 
 const serviceOrdersRouter = Router();
 
@@ -18,7 +18,7 @@ serviceOrdersRouter.post('/', async (request, response) => {
 
   const createServiceOrder = new CreateServiceOrder();
 
-  const serviceOrder = createServiceOrder.execute({
+  const serviceOrder = await createServiceOrder.execute({
     description,
     service_id,
     client_id,

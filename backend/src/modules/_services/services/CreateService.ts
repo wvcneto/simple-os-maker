@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm';
 
-import Service from '../models/Service';
-import AppError from '../errors/AppError';
+import Service from '@modules/_services/infra/typeorm/entities/Service';
+import AppError from '@shared/errors/AppError';
 
 interface Request {
   type: string;

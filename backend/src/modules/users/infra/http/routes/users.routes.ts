@@ -1,12 +1,15 @@
 import { Router } from 'express';
 
 import { getRepository } from 'typeorm';
-import CreateUser from '../services/CreateUser';
-import User from '../models/User';
+
+import User from '@modules/users/infra/typeorm/entities/User';
+import CreateUser from '@modules/users/services/CreateUser';
+import GetUser from '@modules/users/services/GetUser';
+import DeleteUser from '@modules/users/services/DeleteUser';
 
 const usersRouter = Router();
 
-// post
+// create
 usersRouter.post('/', async (request, response) => {
   const {
     name,
@@ -31,13 +34,34 @@ usersRouter.post('/', async (request, response) => {
   return response.status(201).json(user);
 });
 
-// list
+// read
+usersRouter.get('/:id', async (request, response) => {
+  const { id } = request.params;
+  const getUser = new GetUser();
+
+  const user = await getUser.execute(id);
+
+  return response.json(user);
+});
+
+// index
 usersRouter.get('/', async (request, response) => {
   const usersRepository = getRepository(User);
 
   const users = await usersRepository.find();
 
   return response.status(200).json(users);
+});
+
+// delete
+usersRouter.delete('/:id', async (request, response) => {
+  const { id } = request.params;
+
+  const deleteUser = new DeleteUser();
+
+  await deleteUser.execute(id);
+
+  return response.status(204).send();
 });
 
 export default usersRouter;
