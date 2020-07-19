@@ -1,48 +1,17 @@
 import { Router } from 'express';
 
-import CreateUser from '@modules/users/services/CreateUser';
-
-import UsersRepository from '@modules/users/infra/typeorm/repositories/UserRepository';
+import UsersController from '../controllers/UsersController';
 
 const usersRouter = Router();
+const usersController = new UsersController();
 
 // create
-usersRouter.post('/', async (request, response) => {
-  const usersRepository = new UsersRepository();
-
-  const { name, email, phone, document, type } = request.body;
-
-  const createUser = new CreateUser(usersRepository);
-
-  const user = await createUser.execute({
-    name,
-    email,
-    phone,
-    document,
-    type,
-  });
-
-  return response.status(201).json(user);
-});
+usersRouter.post('/', usersController.create);
 
 // read
-usersRouter.get('/:id', async (request, response) => {
-  const usersRepository = new UsersRepository();
-
-  const { id } = request.params;
-
-  const user = await usersRepository.findById(id);
-
-  return response.json(user);
-});
+usersRouter.get('/:id', usersController.view);
 
 // index
-usersRouter.get('/', async (request, response) => {
-  const usersRepository = new UsersRepository();
-
-  const users = await usersRepository.index();
-
-  return response.status(200).json(users);
-});
+usersRouter.get('/', usersController.index);
 
 export default usersRouter;

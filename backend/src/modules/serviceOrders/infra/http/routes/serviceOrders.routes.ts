@@ -1,43 +1,17 @@
 import { Router } from 'express';
-import CreateServiceOrder from '@modules/serviceOrders/services/CreateServiceOrder';
-import ServiceOrdersRepository from '@modules/serviceOrders/infra/typeorm/repositories/ServiceOrdersRepository';
+
+import ServiceOrdersController from '../controllers/ServiceOrdersController';
 
 const serviceOrdersRouter = Router();
+const serviceOrdersController = new ServiceOrdersController();
 
-// post
-serviceOrdersRouter.post('/', async (request, response) => {
-  const serviceOrdersRepository = new ServiceOrdersRepository();
+// create
+serviceOrdersRouter.post('/', serviceOrdersController.create);
 
-  const {
-    description,
-    service_id,
-    client_id,
-    responsible_id,
-    requester_id,
-    deadline,
-  } = request.body;
+// read
+serviceOrdersRouter.get('/:id', serviceOrdersController.view);
 
-  const createServiceOrder = new CreateServiceOrder(serviceOrdersRepository);
-
-  const serviceOrder = await createServiceOrder.execute({
-    description,
-    service_id,
-    client_id,
-    responsible_id,
-    requester_id,
-    deadline,
-  });
-
-  return response.status(201).json(serviceOrder);
-});
-
-// list
-serviceOrdersRouter.get('/', async (request, response) => {
-  const serviceOrdersRepository = new ServiceOrdersRepository();
-
-  const serviceOrders = await serviceOrdersRepository.index();
-
-  return response.status(200).json(serviceOrders);
-});
+// index
+serviceOrdersRouter.get('/', serviceOrdersController.index);
 
 export default serviceOrdersRouter;

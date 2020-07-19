@@ -1,7 +1,7 @@
 import User from '../infra/typeorm/entities/User';
 import ICreateUserDTO from '../dtos/ICreateUserDTO';
 
-export default interface UserRepository {
+export default interface UsersRepository {
   // findOne onde -> email
   findByEmail(email: string): Promise<User | undefined>;
 
