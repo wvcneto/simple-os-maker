@@ -4,11 +4,7 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToOne,
-  JoinColumn,
 } from 'typeorm';
-
-import Address from '@modules/users/infra/typeorm/entities/Address';
 
 @Entity('users')
 class User {
@@ -29,13 +25,6 @@ class User {
 
   @Column()
   type: string;
-
-  @Column()
-  address_id: string;
-
-  @OneToOne(() => Address)
-  @JoinColumn({ name: 'address_id' })
-  address: Address;
 
   @CreateDateColumn()
   created_at: Date;

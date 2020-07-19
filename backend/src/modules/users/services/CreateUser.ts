@@ -1,69 +1,41 @@
-import { getRepository } from 'typeorm';
-
 import User from '@modules/users/infra/typeorm/entities/User';
-import CreateAddress from '@modules/users/services/CreateAddress';
+
 import AppError from '@shared/errors/AppError';
 
-interface Request {
+import IUsersRepository from '../repositories/IUserRepository';
+
+interface IRequest {
   name: string;
   email: string;
   phone: string;
   document: string;
   type: string;
-  address: {
-    state: string;
-    city: string;
-    neighborhood: string;
-    street: string;
-    number: string;
-    complement: string;
-    zip: string;
-  };
 }
 
 class CreateUser {
+  constructor(private usersRepository: IUsersRepository) {}
+
   public async execute({
     name,
     email,
     phone,
     document,
     type,
-    address: { state, city, neighborhood, street, number, complement, zip },
-  }: Request): Promise<User> {
+  }: IRequest): Promise<User> {
     try {
-      const usersRepository = getRepository(User);
-      const createAddress = new CreateAddress();
-
-      const checkUserExists = await usersRepository.findOne({
-        where: { email },
-      });
+      const checkUserExists = await this.usersRepository.findByEmail(email);
 
       if (checkUserExists) {
         throw new AppError('Email address already used.');
       }
 
-      const userAddress = await createAddress.execute({
-        state,
-        city,
-        neighborhood,
-        street,
-        number,
-        complement,
-        zip,
-      });
-
-      const address_id = userAddress.id;
-
-      const user = usersRepository.create({
+      const user = await this.usersRepository.create({
         name,
         email,
         phone,
         document,
         type,
-        address_id,
       });
-
-      await usersRepository.save(user);
 
       return user;
     } catch {

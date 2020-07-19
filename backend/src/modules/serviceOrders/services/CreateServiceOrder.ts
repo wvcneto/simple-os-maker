@@ -1,9 +1,8 @@
-import { getRepository } from 'typeorm';
-
 import ServiceOrder from '@modules/serviceOrders/infra/typeorm/entities/ServiceOrder';
 import AppError from '@shared/errors/AppError';
+import IServiceOrdersRepository from '../repositories/IServiceOrdersRepository';
 
-interface Request {
+interface IRequest {
   description: string;
   service_id: string;
   client_id: string;
@@ -13,6 +12,8 @@ interface Request {
 }
 
 class CreateServiceOrder {
+  constructor(private ServiceOrdersRepository: IServiceOrdersRepository) {}
+
   public async execute({
     description,
     service_id,
@@ -20,11 +21,9 @@ class CreateServiceOrder {
     responsible_id,
     requester_id,
     deadline,
-  }: Request): Promise<ServiceOrder> {
+  }: IRequest): Promise<ServiceOrder> {
     try {
-      const serviceOrdersRespository = getRepository(ServiceOrder);
-
-      const serviceOrder = serviceOrdersRespository.create({
+      const serviceOrder = await this.ServiceOrdersRepository.create({
         description,
         service_id,
         client_id,
@@ -32,8 +31,6 @@ class CreateServiceOrder {
         requester_id,
         deadline,
       });
-
-      await serviceOrdersRespository.save(serviceOrder);
 
       return serviceOrder;
     } catch {

@@ -1,26 +1,18 @@
 import { Router } from 'express';
 
-import { getRepository } from 'typeorm';
-
-import User from '@modules/users/infra/typeorm/entities/User';
 import CreateUser from '@modules/users/services/CreateUser';
-import GetUser from '@modules/users/services/GetUser';
-import DeleteUser from '@modules/users/services/DeleteUser';
+
+import UsersRepository from '@modules/users/infra/typeorm/repositories/UserRepository';
 
 const usersRouter = Router();
 
 // create
 usersRouter.post('/', async (request, response) => {
-  const {
-    name,
-    email,
-    phone,
-    document,
-    type,
-    address: { state, city, neighborhood, street, number, complement, zip },
-  } = request.body;
+  const usersRepository = new UsersRepository();
 
-  const createUser = new CreateUser();
+  const { name, email, phone, document, type } = request.body;
+
+  const createUser = new CreateUser(usersRepository);
 
   const user = await createUser.execute({
     name,
@@ -28,7 +20,6 @@ usersRouter.post('/', async (request, response) => {
     phone,
     document,
     type,
-    address: { state, city, neighborhood, street, number, complement, zip },
   });
 
   return response.status(201).json(user);
@@ -36,32 +27,22 @@ usersRouter.post('/', async (request, response) => {
 
 // read
 usersRouter.get('/:id', async (request, response) => {
-  const { id } = request.params;
-  const getUser = new GetUser();
+  const usersRepository = new UsersRepository();
 
-  const user = await getUser.execute(id);
+  const { id } = request.params;
+
+  const user = await usersRepository.findById(id);
 
   return response.json(user);
 });
 
 // index
 usersRouter.get('/', async (request, response) => {
-  const usersRepository = getRepository(User);
+  const usersRepository = new UsersRepository();
 
-  const users = await usersRepository.find();
+  const users = await usersRepository.index();
 
   return response.status(200).json(users);
-});
-
-// delete
-usersRouter.delete('/:id', async (request, response) => {
-  const { id } = request.params;
-
-  const deleteUser = new DeleteUser();
-
-  await deleteUser.execute(id);
-
-  return response.status(204).send();
 });
 
 export default usersRouter;

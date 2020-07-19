@@ -1,9 +1,8 @@
-import { getRepository } from 'typeorm';
-
 import Service from '@modules/_services/infra/typeorm/entities/Service';
 import AppError from '@shared/errors/AppError';
+import IServicesRepository from '../repositories/IServicesRepository';
 
-interface Request {
+interface IRequest {
   type: string;
   name: string;
   description: string;
@@ -11,27 +10,25 @@ interface Request {
 }
 
 class CreateService {
+  constructor(private ServicesRepository: IServicesRepository) {}
+
   public async execute({
     type,
     name,
     description,
     code,
-  }: Request): Promise<Service> {
+  }: IRequest): Promise<Service> {
     try {
-      const servicesRepository = getRepository(Service);
-
-      const service = servicesRepository.create({
+      const service = await this.ServicesRepository.create({
         type,
         name,
         description,
         code,
       });
 
-      await servicesRepository.save(service);
-
       return service;
     } catch {
-      throw new AppError('Service does not created');
+      throw new AppError('Service does not created.');
     }
   }
 }

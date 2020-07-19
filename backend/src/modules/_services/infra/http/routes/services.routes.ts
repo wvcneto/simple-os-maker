@@ -1,14 +1,18 @@
 import { Router } from 'express';
-import { getRepository } from 'typeorm';
+
 import CreateService from '@modules/_services/services/CreateService';
-import Service from '@modules/_services/infra/typeorm/entities/Service';
+
+import ServicesRepository from '@modules/_services/infra/typeorm/repositories/ServicesRepository';
 
 const servicesRouter = Router();
 
+// create
 servicesRouter.post('/', async (request, response) => {
+  const servicesRepository = new ServicesRepository();
+
   const { type, name, description, code } = request.body;
 
-  const createService = new CreateService();
+  const createService = new CreateService(servicesRepository);
 
   const service = await createService.execute({
     type,
@@ -20,10 +24,22 @@ servicesRouter.post('/', async (request, response) => {
   return response.status(201).json(service);
 });
 
-servicesRouter.get('/', async (request, response) => {
-  const servicesRepository = getRepository(Service);
+// read
+servicesRouter.get('/:id', async (request, response) => {
+  const servicesRepository = new ServicesRepository();
 
-  const services = await servicesRepository.find();
+  const { id } = request.params;
+
+  const Service = await servicesRepository.findById(id);
+
+  return response.json(Service);
+});
+
+// index
+servicesRouter.get('/', async (request, response) => {
+  const servicesRepository = new ServicesRepository();
+
+  const services = await servicesRepository.index();
 
   return response.status(200).json(services);
 });
