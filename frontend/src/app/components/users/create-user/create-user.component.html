@@ -1,0 +1,54 @@
+<main>
+  <h2 class="section-title">Novo Usuário</h2>
+  <div>
+    <form action="/">
+      <label for="name">Nome</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder="Informe o nome..."
+        [(ngModel)]="request.name"
+      >
+
+      <label for="email">Email</label>
+      <input
+        type="text"
+        id="email"
+        name="email"
+        placeholder="Informe o email..."
+        [(ngModel)]="request.email"
+      >
+
+      <label for="phone">Telefone</label>
+      <input
+        type="text"
+        id="phone"
+        name="phone"
+        placeholder="(34)99999-9999"
+        [(ngModel)]="request.phone"
+      >
+
+      <label for="document">Documento</label>
+      <input
+        type="text"
+        id="document"
+        name="document"
+        placeholder="Informe um documento..."
+        [(ngModel)]="request.document"
+      >
+
+      <label for="type">Tipo</label>
+      <select id="type" name="type" [(ngModel)]="request.type">
+        <option value="cliente">Cliente</option>
+        <option value="funcionario">Funcionário</option>
+      </select>
+
+      <input type="submit" (click)="save()" value="Cadastrar">
+    </form>
+  </div>
+
+  <div *ngIf="response">
+    <h3 class="section-title">Criado com sucesso!</h3>
+  </div>
+</main>

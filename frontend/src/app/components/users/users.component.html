@@ -1,0 +1,26 @@
+<main>
+  <h2 class="section-title">Listagem de Usuários</h2>
+  <a mat-list-item routerLink="/users/new">Novo</a>
+  <table id="my-table" *ngIf="responseUsers">
+    <thead>
+      <th>Nome</th>
+      <th>Email</th>
+      <th>Telefone</th>
+      <th>Documento</th>
+      <th>Tipo</th>
+      <th>Ações</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of responseUsers">
+        <td>{{user.name}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.phone}}</td>
+        <td>{{user.document}}</td>
+        <td>{{user.type}}</td>
+        <td>
+          <a routerLink="/users/{{user.id}}">EDITAR</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</main>
