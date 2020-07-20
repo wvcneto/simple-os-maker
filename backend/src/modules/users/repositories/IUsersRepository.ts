@@ -14,6 +14,9 @@ export default interface UsersRepository {
   // create
   create(date: ICreateUserDTO): Promise<User>;
 
+  // delete
+  delete(id: string): Promise<void>;
+
   // save
   save(user: User): Promise<User>;
 }

@@ -11,6 +11,9 @@ serviceOrdersRouter.post('/', serviceOrdersController.create);
 // read
 serviceOrdersRouter.get('/:id', serviceOrdersController.view);
 
+// delete
+serviceOrdersRouter.delete('/:id', serviceOrdersController.delete);
+
 // index
 serviceOrdersRouter.get('/', serviceOrdersController.index);
 

@@ -11,6 +11,9 @@ servicesRouter.post('/', servicesController.create);
 // read
 servicesRouter.get('/:id', servicesController.view);
 
+// read
+servicesRouter.delete('/:id', servicesController.delete);
+
 // index
 servicesRouter.get('/', servicesController.index);
 

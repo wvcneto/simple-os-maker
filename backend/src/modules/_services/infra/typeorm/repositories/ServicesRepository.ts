@@ -32,6 +32,10 @@ class ServicesRepository implements IServiceRepository {
     return service;
   }
 
+  public async delete(id: string): Promise<void> {
+    await this.ormRepository.delete(id);
+  }
+
   public async save(service: Service): Promise<Service> {
     return this.ormRepository.save(service);
   }

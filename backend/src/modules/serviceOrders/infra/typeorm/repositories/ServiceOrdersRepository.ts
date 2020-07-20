@@ -34,6 +34,10 @@ class ServiceOrdersRepository implements IServiceOrderRepository {
     return serviceOrder;
   }
 
+  public async delete(id: string): Promise<void> {
+    await this.ormRepository.delete(id);
+  }
+
   public async save(serviceOrder: ServiceOrder): Promise<ServiceOrder> {
     return this.ormRepository.save(serviceOrder);
   }

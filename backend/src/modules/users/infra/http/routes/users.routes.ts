@@ -14,4 +14,7 @@ usersRouter.get('/:id', usersController.view);
 // index
 usersRouter.get('/', usersController.index);
 
+// delete
+usersRouter.delete('/:id', usersController.delete);
+
 export default usersRouter;

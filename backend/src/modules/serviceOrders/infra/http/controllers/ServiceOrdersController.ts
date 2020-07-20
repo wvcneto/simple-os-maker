@@ -40,6 +40,16 @@ export default class ServiceOrdersController {
     return response.json(serviceOrder);
   }
 
+  public async delete(request: Request, response: Response): Promise<Response> {
+    const serviceOrdersRepository = new ServiceOrdersRepository();
+
+    const { id } = request.params;
+
+    await serviceOrdersRepository.delete(id);
+
+    return response.status(200).send();
+  }
+
   public async index(request: Request, response: Response): Promise<Response> {
     const serviceOrdersRepository = new ServiceOrdersRepository();
 

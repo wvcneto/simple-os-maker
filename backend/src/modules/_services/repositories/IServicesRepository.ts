@@ -11,6 +11,9 @@ export default interface ServicesRepository {
   // create
   create(date: ICreateServiceDTO): Promise<Service>;
 
+  // delete
+  delete(id: string): Promise<void>;
+
   // save
   save(service: Service): Promise<Service>;
 }

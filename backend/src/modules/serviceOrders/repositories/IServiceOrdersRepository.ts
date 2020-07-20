@@ -11,6 +11,9 @@ export default interface ServiceOrdersRepository {
   // create
   create(date: ICreateServiceOrdersDTO): Promise<ServiceOrder>;
 
+  // delete
+  delete(id: string): Promise<void>;
+
   // save
   save(serviceOrder: ServiceOrder): Promise<ServiceOrder>;
 }

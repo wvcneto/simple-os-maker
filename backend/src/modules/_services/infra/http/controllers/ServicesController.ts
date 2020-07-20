@@ -31,6 +31,16 @@ export default class ServicesController {
     return response.json(Service);
   }
 
+  public async delete(request: Request, response: Response): Promise<Response> {
+    const servicesRepository = new ServicesRepository();
+
+    const { id } = request.params;
+
+    await servicesRepository.delete(id);
+
+    return response.status(200).send();
+  }
+
   public async index(request: Request, response: Response): Promise<Response> {
     const servicesRepository = new ServicesRepository();
 

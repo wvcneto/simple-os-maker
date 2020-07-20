@@ -32,6 +32,16 @@ export default class UsersController {
     return response.json(user);
   }
 
+  public async delete(request: Request, response: Response): Promise<Response> {
+    const usersRepository = new UsersRepository();
+
+    const { id } = request.params;
+
+    const user = await usersRepository.delete(id);
+
+    return response.json(user);
+  }
+
   public async index(request: Request, response: Response): Promise<Response> {
     const usersRepository = new UsersRepository();
 
