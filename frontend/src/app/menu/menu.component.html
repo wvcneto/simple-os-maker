@@ -3,7 +3,7 @@
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>Menu</mat-toolbar>
+    <mat-toolbar color="primary">Menu</mat-toolbar>
     <mat-nav-list>
       <a mat-list-item href="#">Ordens de Serviço</a>
       <a mat-list-item href="#">Serviços</a>
@@ -16,12 +16,12 @@
         type="button"
         aria-label="Toggle sidenav"
         mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
+        (click)="drawer.toggle()">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>Sistema Gerenciador de Ordens de Serviço</span>
+      <span>Gerenciador de O.S.</span>
     </mat-toolbar>
-    <ng-content></ng-content> <!--componentes-->
+    <!-- Content -->
+    <ng-content></ng-content>
   </mat-sidenav-content>
 </mat-sidenav-container>
